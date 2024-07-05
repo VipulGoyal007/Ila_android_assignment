@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="hint_text_color">#A6A2A2</color>
+    <color name="my_light_primary">#2F89D1</color>
+    <color name="tm_core_color_blue_100">#B8D1F5</color>
+    <color name="tm_core_color_blue_90">#CFDDED</color>
+    <color name="tm_core_color_blue_500">#1b69de</color>
+    <color name="banner_inactive">#ECECEC</color>
+</resources>
