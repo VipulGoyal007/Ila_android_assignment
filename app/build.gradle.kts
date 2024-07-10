@@ -28,7 +28,35 @@ android {
                 "proguard-rules.pro"
             )
         }
+        debug {
+            isMinifyEnabled = false
+            isShrinkResources= false
+            isDebuggable= true
+            //proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+        }
     }
+
+
+    // Specifies one flavor dimension.
+    flavorDimensions += "appInstance"
+    productFlavors {
+        create("dev") {
+            // Assigns this product flavor to the "version" flavor dimension.
+            // If you are using only one dimension, this property is optional,
+            // and the plugin automatically assigns all the module's flavors to
+            // that dimension.
+            dimension = "appInstance"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+        }
+        create("uat") {
+            dimension = "appInstance"
+            applicationIdSuffix = ".uat"
+            versionNameSuffix = "-uat"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
