@@ -6,7 +6,11 @@ import android.graphics.BitmapFactory
 import androidx.core.content.ContextCompat
 import com.example.testapplication.R
 import com.example.testapplication.datamodel.BannerDataModel
+import com.example.testapplication.datamodel.GetAllPatientResponse
 import com.example.testapplication.datamodel.SearchDataModel
+import com.example.testapplication.repository.MainDataRepository
+import com.example.testapplication.utils.Resource
+import com.intellihealth.truemeds.data.model.mixpanel.MxInternalErrorOccurred
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +22,8 @@ import java.util.Collections
 import javax.inject.Inject
 
 class MainActivityUseCase @Inject constructor(
-    @ApplicationContext private val context: Context
+    private val userDataRepository: MainDataRepository,
+    @ApplicationContext private val context: Context,
 ) {
 
     suspend fun getAllBannerListing(): ArrayList<BannerDataModel> {
@@ -114,4 +119,16 @@ class MainActivityUseCase @Inject constructor(
 
         return latestNews
     }
+
+    suspend fun getAllPatientsListFromApi(
+        showMyself: Boolean,
+        customerId: Long
+    ): GetAllPatientResponse? =
+        when (val res = userDataRepository.getAllPatient(
+            MxInternalErrorOccurred(), showMyself, customerId
+        )) {
+            is Resource.Success -> res.value?.body()
+            is Resource.Failure -> null
+            else -> null
+        }
 }

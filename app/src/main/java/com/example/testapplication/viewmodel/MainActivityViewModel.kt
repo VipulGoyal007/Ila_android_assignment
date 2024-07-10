@@ -33,15 +33,17 @@ class MainActivityViewModel @Inject constructor(
     var searchListOriginal: List<SearchDataModel> = listOf()
     var filteredlist: MutableList<SearchDataModel> = mutableListOf()
     var bottomSheetTitlelist: ArrayList<String> = arrayListOf()
-    var countData=""
+    var countData = ""
     var showBottomSheetDialog = MutableLiveData<MESSAGES>(MESSAGES.NO_MESSAGE)
     val showBottomSheetDialogLiveData: LiveData<MESSAGES> get() = showBottomSheetDialog
 
 
-    init{
+    init {
         getBannerListing()
         getSearchListing(0)
+        getAllPatientsFromApi()
     }
+
     fun getBannerListing() {
         viewModelScope.launch(IO) {
             val response = mainActivityUseCase.getAllBannerListing()
@@ -50,24 +52,23 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
-    fun flowUsage()
-    {
+    fun flowUsage() {
         viewModelScope.launch(IO) {
-            mainActivityUseCase.flowUsage().collect{data->
-                Log.e("data_flowss::",":::->"+data)
+            mainActivityUseCase.flowUsage().collect { data ->
+                Log.e("data_flowss::", ":::->" + data)
             }
         }
     }
+
     fun floatingActionButtonClick() {
         if (!filteredlist.isNullOrEmpty() && filteredlist.size > 0) {
             bottomSheetTitlelist.clear()
             for (item in filteredlist) {
                 bottomSheetTitlelist.add(item.title.trim())
             }
-            countData=mainActivityUseCase.provideBottomSheetCountData(bottomSheetTitlelist)
+            countData = mainActivityUseCase.provideBottomSheetCountData(bottomSheetTitlelist)
             showBottomSheetDialog.postValue(MESSAGES.BOTTOM_SHEET_DATA_FOUND)
-        }
-        else{
+        } else {
             showBottomSheetDialog.postValue(MESSAGES.BOTTOM_SHEET_NO_DATA_FOUND)
         }
     }
@@ -111,4 +112,12 @@ class MainActivityViewModel @Inject constructor(
     }
 
 
+    fun getAllPatientsFromApi() {
+        viewModelScope.launch(IO) {
+            val response = mainActivityUseCase.getAllPatientsListFromApi(
+                true, 787
+            )
+            Log.e("response:::",response.toString())
+        }
+    }
 }

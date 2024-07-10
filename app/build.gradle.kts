@@ -49,11 +49,16 @@ android {
             dimension = "appInstance"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
+            buildConfigField ("String", "baseUrl",  "\"https://stage-android.truemedsapi.in\"")
+
+
         }
         create("uat") {
             dimension = "appInstance"
             applicationIdSuffix = ".uat"
             versionNameSuffix = "-uat"
+            buildConfigField ("String", "baseUrl",  "\"https://stage-android.truemedsapi.in\"")
+
         }
     }
 
@@ -68,6 +73,7 @@ android {
     buildFeatures {
         dataBinding = true
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -95,5 +101,9 @@ dependencies {
     implementation(libs.com.squareup.retrofit2.scalars)
     implementation(libs.com.squareup.okhttp3)
     implementation(libs.com.squareup.okhttp3.interceptor)
+
+
+    debugImplementation(libs.com.github.chuckerteam.chucker)
+    releaseImplementation(libs.com.github.chuckerteam.chucker)
 
 }
