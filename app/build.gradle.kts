@@ -48,7 +48,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    //implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -61,5 +60,12 @@ dependencies {
     implementation(libs.org.jetbrains.kotlinx)
     implementation(libs.androidx.databinding)
     implementation(libs.androidx.activity.ktx)
+
+    //api calling
+    implementation(libs.com.squareup.retrofit2)
+    implementation(libs.com.squareup.retrofit2.gson)
+    implementation(libs.com.squareup.retrofit2.scalars)
+    implementation(libs.com.squareup.okhttp3)
+    implementation(libs.com.squareup.okhttp3.interceptor)
 
 }
