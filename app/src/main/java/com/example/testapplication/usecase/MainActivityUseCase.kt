@@ -8,6 +8,9 @@ import com.example.testapplication.R
 import com.example.testapplication.datamodel.BannerDataModel
 import com.example.testapplication.datamodel.SearchDataModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -95,4 +98,20 @@ class MainActivityUseCase @Inject constructor(
    return countData
     }
 
+
+     fun flowUsage(): Flow<Int> {
+
+        var i =1
+        val latestNews: Flow<Int> = flow<Int> {
+
+            while(i<=60) {
+                emit(i) // Emits the result of the request to the flow
+                i = i + 1
+                delay(1000) // Suspends the coroutine for some time
+            }
+
+        }
+
+        return latestNews
+    }
 }

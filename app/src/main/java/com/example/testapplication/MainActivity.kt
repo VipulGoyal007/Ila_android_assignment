@@ -4,13 +4,16 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import com.example.testapplication.adapter.BannerAdapter
 import com.example.testapplication.bottomsheet.SearchDataBottomSheet
@@ -18,32 +21,42 @@ import com.example.testapplication.databinding.ActivityMainBinding
 import com.example.testapplication.datamodel.MESSAGES
 import com.example.testapplication.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    var binding: ActivityMainBinding? = null
-    private lateinit var viewModel: MainActivityViewModel
+    private lateinit var binding: ActivityMainBinding
+   // private lateinit var viewModel: MainActivityViewModel
     private var swipeDelay: Int = 0
     private lateinit var bannerAdapter: BannerAdapter
     private var pageCount = 0
     private var activePage = 0
     lateinit var slider :LinearLayout
     private lateinit var searchDataBottomSheet: SearchDataBottomSheet
+   // private val viewModel by viewModels<MainActivityViewModel>()
+  // private val binding by viewBinding(ActivityMainBinding::inflate)
+
+    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
-        binding?.viewModel = viewModel
-        binding?.lifecycleOwner = this
-        slider = binding!!.llBannerIndicator
+       // val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        //  viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+        slider = binding.llBannerIndicator
 
         // setting observer data
         setObservers()
 
         //search functionality implemented here
-        binding?.etSearch?.addTextChangedListener(object : TextWatcher {
+        binding.etSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
 
                 viewModel.performFilterOperation(s.toString().trim())
@@ -55,6 +68,11 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
         })
+
+
+
+       viewModel.flowUsage()
+
     }
 
     fun setObservers() {
@@ -65,10 +83,10 @@ class MainActivity : AppCompatActivity() {
 
                 //setting banner adapter data
                 bannerAdapter = BannerAdapter(
-                    this, it, binding!!.vpBanner, swipeDelay * 1000.toLong()
+                    this, it, binding.vpBanner, swipeDelay * 1000.toLong()
                 )
 
-                with(binding!!.vpBanner) {
+                with(binding.vpBanner) {
                     adapter = bannerAdapter
 
                     setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -83,8 +101,9 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         override fun onPageSelected(position: Int) {
-                            setActivePage(position)
-                            binding!!.etSearch.setText("")
+                            setActivePage(position
+                            )
+                            binding.etSearch.setText("")
                             viewModel.getSearchListing(position)
                         }
 
@@ -123,12 +142,12 @@ class MainActivity : AppCompatActivity() {
     }
     fun setPageCount(pageCount: Int) {
         this.pageCount = pageCount
-        binding?.llBannerIndicator?.requestLayout()
-        binding?.llBannerIndicator?.invalidate()
+        binding.llBannerIndicator.requestLayout()
+        binding.llBannerIndicator.invalidate()
     }
     fun setActivePage(activePage: Int) {
         this.activePage = activePage
-        binding?.llBannerIndicator?.invalidate()
+        binding.llBannerIndicator.invalidate()
         setViewPageIndicator()
     }
 

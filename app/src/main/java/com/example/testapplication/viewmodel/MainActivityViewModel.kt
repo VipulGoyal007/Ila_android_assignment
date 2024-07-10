@@ -5,6 +5,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.example.testapplication.datamodel.BannerDataModel
 import com.example.testapplication.datamodel.MESSAGES
@@ -12,6 +13,10 @@ import com.example.testapplication.datamodel.SearchDataModel
 import com.example.testapplication.usecase.MainActivityUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import java.util.Collections
 import javax.inject.Inject
@@ -32,6 +37,7 @@ class MainActivityViewModel @Inject constructor(
     var showBottomSheetDialog = MutableLiveData<MESSAGES>(MESSAGES.NO_MESSAGE)
     val showBottomSheetDialogLiveData: LiveData<MESSAGES> get() = showBottomSheetDialog
 
+
     init{
         getBannerListing()
         getSearchListing(0)
@@ -44,6 +50,14 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
+    fun flowUsage()
+    {
+        viewModelScope.launch(IO) {
+            mainActivityUseCase.flowUsage().collect{data->
+                Log.e("data_flowss::",":::->"+data)
+            }
+        }
+    }
     fun floatingActionButtonClick() {
         if (!filteredlist.isNullOrEmpty() && filteredlist.size > 0) {
             bottomSheetTitlelist.clear()
