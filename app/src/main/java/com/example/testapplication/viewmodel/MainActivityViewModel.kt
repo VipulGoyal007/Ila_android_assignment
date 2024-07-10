@@ -43,7 +43,7 @@ class MainActivityViewModel @Inject constructor(
         getSearchListing(0)
     }
     fun getBannerListing() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(IO) {
             val response = mainActivityUseCase.getAllBannerListing()
             setBannerList.postValue(response)
 

@@ -30,24 +30,17 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-   // private lateinit var viewModel: MainActivityViewModel
     private var swipeDelay: Int = 0
     private lateinit var bannerAdapter: BannerAdapter
     private var pageCount = 0
     private var activePage = 0
     lateinit var slider :LinearLayout
     private lateinit var searchDataBottomSheet: SearchDataBottomSheet
-   // private val viewModel by viewModels<MainActivityViewModel>()
-  // private val binding by viewBinding(ActivityMainBinding::inflate)
-
     private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-       // val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
-        //  viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         slider = binding.llBannerIndicator
