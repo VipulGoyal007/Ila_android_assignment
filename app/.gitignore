@@ -1,1 +1,17 @@
 /build
+
+dist
+*.iml
+.gradle
+/local.properties
+/.idea/*
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+translations-*.csv
+Project.xml
+/app/src/main/res/layout/activity_login_2fa_vefirication.xml
+
+keystore.properties
+/app/*.jks
