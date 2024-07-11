@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--TextSize-->
+    <dimen name="d16">16dp</dimen>
+    <dimen name="d20">20dp</dimen>
+    <dimen name="d1">1dp</dimen>
+    <dimen name="d36">36dp</dimen>
+    <dimen name="d8">8dp</dimen>
+    <dimen name="d4">4dp</dimen>
+    <dimen name="d2">2dp</dimen>
+    <dimen name="d24">24dp</dimen>
+    <dimen name="d32">32dp</dimen>
+</resources>
