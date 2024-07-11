@@ -14,7 +14,7 @@ import dagger.hilt.components.SingletonComponent
 class RoomDbModule {
 
     @Provides
-    fun provideAppDao(@ApplicationContext context: Context): TruemedsDao {
+    fun provideAppDao(@ApplicationContext context: Context): AppDataDao {
         return Room.databaseBuilder(context, AppRoomDatabase::class.java, "tm_database")
 //            .addMigrations(AppRoomDatabase.MIGRATION_1_2)
             .fallbackToDestructiveMigration()

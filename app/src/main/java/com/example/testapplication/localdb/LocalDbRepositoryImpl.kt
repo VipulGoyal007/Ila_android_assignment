@@ -1,12 +1,8 @@
 package com.example.testapplication.localdb
 
-import android.util.Log
-import com.example.testapplication.datamodel.SearchDataModel
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-class LocalDbRepositoryImpl @Inject constructor(private val appDao: TruemedsDao) :
+class LocalDbRepositoryImpl @Inject constructor(private val appDao: AppDataDao) :
     LocalDbRepository {
     override suspend fun addItemToCart(medicine: CartMedicine) {
         appDao.insertOriginalMedicine(medicine)

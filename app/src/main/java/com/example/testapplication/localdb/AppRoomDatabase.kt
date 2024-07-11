@@ -7,6 +7,6 @@ import androidx.room.RoomDatabase
     entities = [CartMedicine::class], version = 5, exportSchema = false
 )
 abstract class AppRoomDatabase : RoomDatabase() {
-    abstract fun getAppDao(): TruemedsDao
+    abstract fun getAppDao(): AppDataDao
 
 }
