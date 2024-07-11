@@ -124,7 +124,7 @@ class MainActivityViewModel @Inject constructor(
             localDbUseCase.addToCart(CartMedicine(1, "Title 1", "Sub title 1"))
             val medData = localDbUseCase.getAddedMedicines()
             medData.map {
-                Log.e("responsee:::${it.id}:::", it.medicineId+":::"+it.medicineName)
+                Log.e("responsee:::${it.id}::::", it.medicineId+":::"+it.medicineName)
             }
 
         }
