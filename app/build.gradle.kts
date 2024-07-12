@@ -82,14 +82,20 @@ dependencies {
     ksp(libs.com.google.dagger.compiler)
 
     implementation(libs.androidx.lifecycle)
+   // implementation(libs.androidx.lifecycle.compose)
     implementation(libs.androidx.lifecycle.process)
     implementation(libs.androidx.lifecycle.livedata)
+   // implementation(libs.androidx.lifecycle.extension)
     implementation(libs.org.jetbrains.kotlinx)
     implementation(libs.androidx.databinding)
+    //implementation(libs.androidx.activity.ktx)
+
 
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material3.windowSizeClass)
     implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.navigation)
+    implementation(libs.androidx.hilt)
 
     implementation(libs.me.onebone)
    // implementation(libs.androidx.compose.material)
