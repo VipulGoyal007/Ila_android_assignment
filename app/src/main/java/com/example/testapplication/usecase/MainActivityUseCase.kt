@@ -3,6 +3,7 @@ package com.example.testapplication.usecase
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.core.content.ContextCompat
 import com.example.testapplication.R
 import com.example.testapplication.datamodel.BannerDataModel
@@ -12,9 +13,14 @@ import com.example.testapplication.repository.MainDataRepository
 import com.example.testapplication.utils.Resource
 import com.intellihealth.truemeds.data.model.mixpanel.MxInternalErrorOccurred
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -45,6 +51,8 @@ class MainActivityUseCase @Inject constructor(
 
             searchList.add(SearchDataModel(i,"${ bannerItem.sublist.get(i)}","${bannerItem.name} "+(i+1),bannerItem.imageUrl))
         }
+
+
         return searchList
     }
 
@@ -103,21 +111,58 @@ class MainActivityUseCase @Inject constructor(
    return countData
     }
 
-
+//normal flows which are cold
      fun flowUsage(): Flow<Int> {
 
         var i =1
         val latestNews: Flow<Int> = flow<Int> {
 
-            while(i<=60) {
+            while(i<=10) {
+              //  Log.e("data_flowss_send::", ":::->" + i)
                 emit(i) // Emits the result of the request to the flow
                 i = i + 1
                 delay(1000) // Suspends the coroutine for some time
             }
 
+        }.catch {
+            Log.e("Exception_msg=>","::::"+it.message)
+           // emit(-1)        //we can also emit some default value in case of exception
         }
 
         return latestNews
+    }
+
+    //shared flows which are hot- it emits repeated values also
+    //Hot flows example with implementation
+    fun sharedfloworHotFlowUsage(): Flow<Int> {
+        val mutableSharedFlow= MutableSharedFlow<Int>(
+            replay = 0 // it means in will store last 2 values and if someone collect the values late then it will get previous 2 values also
+        )
+      GlobalScope.launch {
+          val list= listOf(1,2,3,4,5,5,5,6)
+        list.forEach{
+            mutableSharedFlow.emit(it)
+           // Log.e("data_flowss_send::", ":::->" + it)
+            delay(1000)
+        }}
+        return mutableSharedFlow
+    }
+
+    //state flows which are also hot - but they by default maintain(buffer of ) the last state value - means latest last value
+    //main difference- if someone join the coroutines late they in case of sharedflow it will collect the new value emitter
+    //in case of stateflow it will collect the new value emitter- it doesnot emits repeated values
+
+    //Hot flows example with implementation
+    fun statefloworHotFlowUsage(): Flow<Int> {
+        val mutableStateFlow= MutableStateFlow<Int>(value = 0)
+        GlobalScope.launch {
+            val list= listOf(1,2,3,4,5,6)
+            list.forEach{
+                mutableStateFlow.emit(it)
+               // Log.e("data_flowss_send::", ":::->" + it)
+                delay(1000)
+            }}
+        return mutableStateFlow
     }
 
     suspend fun getAllPatientsListFromApi(
