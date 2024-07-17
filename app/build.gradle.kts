@@ -3,7 +3,9 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.ksp)
     alias(libs.plugins.daggerHiltAndroid)
+    alias(libs.plugins.kotlinSerialization)
     id ("kotlin-kapt")
+
 }
 
 android {
@@ -95,6 +97,8 @@ dependencies {
     implementation(libs.androidx.compose.material3.windowSizeClass)
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.navigation)
+    implementation(libs.kotlinx.serialization.json)
+
     implementation(libs.androidx.hilt)
 
     implementation(libs.me.onebone)

@@ -27,6 +27,7 @@ import com.example.testapplication.viewmodel.CategoryScreenActivityViewModel
 import com.example.testapplication.viewmodel.MainActivityViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.testapplication.ScreenB
 
 @Composable
 fun CategoryScreen(navController: NavController, listData:List<String>) {
@@ -62,7 +63,8 @@ fun CategoryItem(category: String,navController: NavController) {
             color = Color.Green,
             modifier = Modifier
                 .padding(16.dp).clickable {
-                    navController.navigate("detailscreen/${category}")
+                  //  navController.navigate("detailscreen/${category}")
+                    navController.navigate(ScreenB(email = "temp@gmail.com"))
                 }
 
         )

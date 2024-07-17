@@ -47,6 +47,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.example.testapplication.datamodel.BannerDataModel
 import com.example.testapplication.datamodel.SearchDataModel
 import com.example.testapplication.screens.CategoryScreen
@@ -59,6 +60,7 @@ import com.example.testapplication.viewmodel.CategoryScreenActivityViewModel
 import com.example.testapplication.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.update
+import kotlinx.serialization.Serializable
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.ScrollStrategy
@@ -70,34 +72,35 @@ class AdvanceNavigationActivityCompose : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var listData = listOf<String>("Category 1", "Category 2", "Category 3",
-                "Category 4", "Category 5","Category 6", "Category 7", "Category 8",
+            var listData = listOf<String>(
+                "Category 1", "Category 2", "Category 3",
+                "Category 4", "Category 5", "Category 6", "Category 7", "Category 8",
                 "Category 9", "Category 10", "Category 11",
             )
-            App3(listData)
+            //App3(listData)
+            App4(listData)
 
         }
     }
 }
 
 
-
 @Composable
-fun App3(listData : List<String>) {
-val navController= rememberNavController()
+fun App3(listData: List<String>) {
+    val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "categoryscreen") {
-        composable(route = "categoryscreen"){
+        composable(route = "categoryscreen") {
             CategoryScreen(listData = listData, navController = navController)
-           //LoginScreen(navController = navController)
+            //LoginScreen(navController = navController)
 
         }
         composable(route = "detailscreen/{email}", arguments = listOf(
             navArgument("email") {
-                type=NavType.StringType
+                type = NavType.StringType
             }
-        )){
-            val email=it.arguments?.getString("email")?:""
-            DetailScreen(listData = listData)
+        )) {
+            val email = it.arguments?.getString("email") ?: ""
+            DetailScreen(listData = listData, email= "")
 //RegistrationScreen(navController = navController, value = email)
         }
     }
@@ -105,6 +108,31 @@ val navController= rememberNavController()
 
 }
 
+@Composable
+fun App4(listData: List<String>) {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = ScreenA) {
+        composable<ScreenA> {
+            CategoryScreen(listData = listData, navController = navController)
+        }
+        composable<ScreenB> {
+            val args = it.toRoute<ScreenB>()
+            DetailScreen(listData = listData, email = args.email)
+
+        }
+    }
+
+
+}
+
+//new way of nav controller
+
+
+@Serializable
+data class ScreenB(val email: String, val tempData: String?=null)
+
+@Serializable
+object ScreenA
 
 @Preview(showBackground = true)
 @Composable

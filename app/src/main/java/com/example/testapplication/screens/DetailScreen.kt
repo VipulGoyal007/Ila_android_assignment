@@ -29,7 +29,7 @@ import com.example.testapplication.R
 import com.example.testapplication.viewmodel.MainActivityViewModel
 
 @Composable
-fun DetailScreen(listData: List<String>) {
+fun DetailScreen(listData: List<String>,email:String="") {
 
     LazyColumn(
         content = {

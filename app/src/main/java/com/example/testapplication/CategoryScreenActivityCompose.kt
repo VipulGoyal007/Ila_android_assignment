@@ -122,7 +122,7 @@ fun LoadMainScreen2(
         "Category 9", "Category 10", "Category 11",
     )
 
-   DetailScreen(listData)
+   DetailScreen(listData,email= "")
 }
 
 @Composable
