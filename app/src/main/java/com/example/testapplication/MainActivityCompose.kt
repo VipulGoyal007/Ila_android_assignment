@@ -58,6 +58,7 @@ class MainActivityCompose : ComponentActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             TestApplicationTheme {
                 // A surface container using the 'background' color from the theme

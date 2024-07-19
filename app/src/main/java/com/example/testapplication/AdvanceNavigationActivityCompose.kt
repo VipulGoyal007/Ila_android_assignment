@@ -48,6 +48,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.toRoute
+import com.example.testapplication.app.Navigation
 import com.example.testapplication.datamodel.BannerDataModel
 import com.example.testapplication.datamodel.SearchDataModel
 import com.example.testapplication.screens.CategoryScreen
@@ -78,12 +79,20 @@ class AdvanceNavigationActivityCompose : ComponentActivity() {
                 "Category 9", "Category 10", "Category 11",
             )
             //App3(listData)
-            App4(listData)
+           // App4(listData)
+            App5(listData)
 
         }
     }
 }
 
+
+@Composable
+fun App5(listData: List<String>) {
+   
+    Navigation(listData = listData)
+  
+}
 
 @Composable
 fun App3(listData: List<String>) {
@@ -104,8 +113,6 @@ fun App3(listData: List<String>) {
 //RegistrationScreen(navController = navController, value = email)
         }
     }
-
-
 }
 
 @Composable
